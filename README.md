@@ -25,6 +25,16 @@
  ## TESTANDO
  - Depois efetuar a etapa acima, o servidor estará rodando na porta 3000, em http://localhost:3000.
 
+ - Molde para o body das requisições POST e PUT no Postman:
+
+{
+    "title": "",
+    "amount": ,
+    "category": "",
+    "date": "AAAA-MM-DD",
+    "description": ""
+}
+
  ## ROTAS DA API
 
     + -------------------------------------------------------------------------------------------------- +
@@ -63,46 +73,62 @@
 
 - Pegando todas as despesas:
  - GET http://localhost:3000/despesas
+ - Resp:
+    [{"id":0,"title":"Remédios da Vovó","amount":200,"category":"Remédios","date":"1999-02-24","description":"Remédios da Vovó","createdAt":"2026-03-24T22:49:34.807Z"},{"id":1,"title":"Remédios do Netinho","amount":1010,"category":"Remédios","date":"2020-03-02","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"},{"id":2,"title":"Remédios do Vovô","amount":2000,"category":"Remédios","date":"2015-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T23:05:08.706Z"},{"id":3,"title":"Compras do Supermercado","amount":1500,"category":"Mantimentps","date":"2001-02-24","description":"Compras do Supermercado","createdAt":"2026-03-24T23:06:42.301Z"},{"id":4,"title":"Compras de Verduras","amount":350,"category":"Mantimentps","date":"2011-02-24","description":"Compras da Verdureira","createdAt":"2026-03-24T23:10:44.409Z"},{"id":5,"title":"Compras de Suplementos","amount":350,"category":"Mantimentps","date":"2002-02-24","description":"Compras da Growth","createdAt":"2026-03-24T23:12:08.977Z"}]
 
 - Pegando uma em específico:
  - GET http://localhost:3000/despesas/2
+ - Resp:
+    {"id":2,"title":"Remédios do Vovô","amount":2000,"category":"Remédios","date":"2015-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T23:05:08.706Z"}
 
 - Pegando o valor somado total dos campos "amount" das despesas: 
  - GET http://localhost:3000/despesas/summary/total
+ - Resp:
+    5410
 
 - Pegando o valor somado de todos os campos "amount", divididos por categoria:
  - GET http://localhost:3000/despesas/summary/category
+ - Resp: 
+    {"categoria":"Remédios","categoriaAmount":3210},{"categoria":"Mantimentps","categoriaAmount":2200}
 
 - Cadastrando uma despesa:
  - POST http://localhost:3000/despesas
  - Body: 
         {
-            "title": "Remédios da Vovó",
-            "amount": 200,
+            "title": "Remédios do Vovô",
+            "amount": 1000,
             "category": "Remédios",
-            "date": "2026-03-24",
-            "description": "Remédios para Dor de Coluna"
+            "date": "2010-02-24",
+            "description": "Remédios do Vovô"
         }
+ - Resp:
+    {"id":1,"title":"Remédios do Vovô","amount":1000,"category":"Remédios","date":"2010-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"}
 
 - Alterando dados de uma despesa:
  - PUT http://localhost:3000/despesas/17
  - Body: 
         {
-            "title": "Remédios do Vovô",
-            "amount": 250,
+            "title": "Remédios do Netinho",
+            "amount": 1010,
             "category": "",
-            "date": "",
+            "date": "2020-03-02",
             "description": ""
         }      
+ - Resp:
+    {"id":1,"title":"Remédios do Netinho","amount":1010,"category":"Remédios","date":"2020-03-02","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"}
     ## VEJA A SEÇÃO DE "NOTAS" NO FIM DO DOCUMENTO PARA ENTENDER MELHOR COMO E QUAIS CAMPOS PODEM SER ALTERADOS DURANTE A EXECUÇÃO DO "PUT"!!!
 
 - Deletando uma despesa:
  - DELETE http://localhost:3000/despesas/17
+ - Resp:
+    "Despesa Excluída"
 
 # MELHORIAS 
 
-# NOTAS 
+- Analisar mais a fundo a formatação dos campos para responder de acordo, como o formato de data (AAAA/MM/DD).
+- Transformar a 
 
+# NOTAS 
 ## PUT
 - Tirando "id" e "createdAt", todos os outros campos podem ser alterados.
 - Você pode escolher alterar alguns campos, mantendo outros como eram anteriormente.
