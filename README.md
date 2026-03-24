@@ -44,9 +44,9 @@
 ### Entidade Expense/Despesa
 
     + ----------------------------------------------------------------- +
-#   |                             Expense                               |
+    |                             Expense                               |
     | _________________________________________________________________ |
-#   |    Nome     |                        Atributos                    |
+    |    Nome     |                        Atributos                    |
     | ___________ | ___________________________________________________ |
     | id          | Primary Key, Auto_Increment, NOT NULL, INT UNSIGNED |
     | title       | String, NOT NULL                                    |
