@@ -1,13 +1,14 @@
 #  README do Projeto
 #  Alunos - Lorenzo Bruno Bueno
 #  Curso - Análise e Desenvolvimento de Sistemas
+#  Link do Projeto no Github: https://github.com/LorenzoBrunoBueno/AtividadeAPI----Despesas.git
 
 # Descrição do Projeto
 
-## Objetivo da API
- - Desenvolver Endpoints funcionais para visualização, cadastro, alteração, remoção e outras operações para um sistema de registro para     despesas, armazenando esses dados em um array ou arquivo.json (nesse caso um arquivo json) 
+## OBJETIVO DA API
+ - Desenvolver Endpoints funcionais para visualização, cadastro, alteração, remoção e outras operações para um sistema de registro para     despesas, armazenando esses dados em um array ou arquivo.json (nesse caso um arquivo json) .
 
-## Tecnologias Utilizadas
+## TECNOLOGIAS UTILIZADAS
  - NPM
  - Node.js
  - Postman
@@ -15,5 +16,103 @@
  - Biblioteca File System do Node.js
  - Visual Studio Code
 
-## Executando:
- - 
+## EXECUTANDO:
+ - clone o repositório do github utilizando: git clone https://github.com/LorenzoBrunoBueno/AtividadeAPI----Despesas.git
+ - dentro da pasta AtividadeAPI----Despesas, rode o comando: npm install.
+ - depois, neste mesmo terminal, rode o comando configurado dentro do package.json: npm start .
+ - pronto, o servidor já está rodando.
+
+ ## TESTANDO
+ - Depois efetuar a etapa acima, o servidor estará rodando na porta 3000, em http://localhost:3000.
+
+ ## ROTAS DA API
+
+    + -------------------------------------------------------------------------------------------------- +
+    |  Método  |            Rota            |                         Descrição                          |
+    | ________ | __________________________ | __________________________________________________________ |
+    | - GET    | /despesas                  | Pegar todas as despesas.                                   |
+    | - GET    | /despesas/:id              | Pegar uma despesa em específico, pelo ID.                  |
+    | - GET    | /despesas/summary/total    | Pegar o valor somado total das despesas.                   |
+    | - GET    | /despesas/summary/category | Pegar o valor somado total das despesas de cada categoria. |
+    | - POST   | /despesas                  | Cadastrar uma despesa.                                     |
+    | - PUT    | /despesas/:id              | Alterar as Informações de uma despesa pelo ID.             |
+    | - DELETE | /despesas/:id              | Deletar uma despesa em específico pelo ID.                 |
+    + -------------------------------------------------------------------------------------------------- +
+
+## MODELO DE DADOS
+
+### Entidade Expense/Despesa
+
+    + ----------------------------------------------------------------- +
+#   |                             Expense                               |
+    | _________________________________________________________________ |
+#   |    Nome     |                        Atributos                    |
+    | ___________ | ___________________________________________________ |
+    | id          | Primary Key, Auto_Increment, NOT NULL, INT UNSIGNED |
+    | title       | String, NOT NULL                                    |
+    | amount      | Float, UNSIGNED, NOT NULL                           | 
+    | category    | String                                              |
+    | date        | Date, NOT NULL, > Date.now()                        |
+    | description | String                                              |
+    | createdAt   | Datetime NOT NULL                                   |  
+    + ----------------------------------------------------------------- +
+
+## EXEMPLOS DE REQUISIÇÃO
+
+### Requisições feitas no Postman
+
+- Pegando todas as despesas:
+ - GET http://localhost:3000/despesas
+
+- Pegando uma em específico:
+ - GET http://localhost:3000/despesas/2
+
+- Pegando o valor somado total dos campos "amount" das despesas: 
+ - GET http://localhost:3000/despesas/summary/total
+
+- Pegando o valor somado de todos os campos "amount", divididos por categoria:
+ - GET http://localhost:3000/despesas/summary/category
+
+- Cadastrando uma despesa:
+ - POST http://localhost:3000/despesas
+ - Body: 
+        {
+            "title": "Remédios da Vovó",
+            "amount": 200,
+            "category": "Remédios",
+            "date": "2026-03-24",
+            "description": "Remédios para Dor de Coluna"
+        }
+
+- Alterando dados de uma despesa:
+ - PUT http://localhost:3000/despesas/17
+ - Body: 
+        {
+            "title": "Remédios do Vovô",
+            "amount": 250,
+            "category": "",
+            "date": "",
+            "description": ""
+        }      
+    ## VEJA A SEÇÃO DE "NOTAS" NO FIM DO DOCUMENTO PARA ENTENDER MELHOR COMO E QUAIS CAMPOS PODEM SER ALTERADOS DURANTE A EXECUÇÃO DO "PUT"!!!
+
+- Deletando uma despesa:
+ - DELETE http://localhost:3000/despesas/17
+
+# MELHORIAS 
+
+# NOTAS 
+
+## PUT
+- Tirando "id" e "createdAt", todos os outros campos podem ser alterados.
+- Você pode escolher alterar alguns campos, mantendo outros como eram anteriormente.
+  - Para fazer isso basta deixar o campo que você não quer alterar como "", exemplo:
+    {
+        "title": "Remédios do Vovô",
+        "amount": 250,
+        "category": "",
+        "date": "",
+        "description": ""
+    }
+  - Nessa requisição somente os campos "title" e "amount" estão sendo alterados, os outros que estão com "", permanecem como eram antes.
+  - A única exceção é o campo amount, que deve ter seu valor colocado novamente em todas as requisições.  
