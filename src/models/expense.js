@@ -121,15 +121,15 @@ class Expense{
     async somaTotalDespesasCategoria(){
         const conteudoArquivo = await lerArquivo();
 
-        const arrayDespesas = [];
+        const arrayCategoriasDespesas = [];
 
         for(var o in conteudoArquivo){
 
             let temCategoria = false;
 
-            for (var c in arrayDespesas){
-                if (conteudoArquivo[o].category === arrayDespesas[c].categoria){
-                    arrayDespesas[c].categoriaAmount = arrayDespesas[c].categoriaAmount + conteudoArquivo[o].amount;
+            for (var c in arrayCategoriasDespesas){
+                if (conteudoArquivo[o].category === arrayCategoriasDespesas[c].categoria){
+                    arrayCategoriasDespesas[c].categoriaAmount = arrayCategoriasDespesas[c].categoriaAmount + conteudoArquivo[o].amount;
                     temCategoria = true;
                 }
             }
@@ -141,11 +141,11 @@ class Expense{
                     categoria,
                     categoriaAmount
                 };
-                arrayDespesas.push(CategoriaObj)
+                arrayCategoriasDespesas.push(CategoriaObj)
             }
         }
 
-        return arrayDespesas;
+        return arrayCategoriasDespesas;
     }
 }
 
