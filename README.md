@@ -40,13 +40,13 @@
     + -------------------------------------------------------------------------------------------------- +
     |  Método  |            Rota            |                         Descrição                          |
     | ________ | __________________________ | __________________________________________________________ |
-    | - GET    | /despesas                  | Pegar todas as despesas.                                   |
-    | - GET    | /despesas/:id              | Pegar uma despesa em específico, pelo ID.                  |
-    | - GET    | /despesas/summary/total    | Pegar o valor somado total das despesas.                   |
-    | - GET    | /despesas/summary/category | Pegar o valor somado total das despesas de cada categoria. |
-    | - POST   | /despesas                  | Cadastrar uma despesa.                                     |
-    | - PUT    | /despesas/:id              | Alterar as Informações de uma despesa pelo ID.             |
-    | - DELETE | /despesas/:id              | Deletar uma despesa em específico pelo ID.                 |
+    | - GET    | /expenses                  | Pegar todas as despesas.                                   |
+    | - GET    | /expenses/:id              | Pegar uma despesa em específico, pelo ID.                  |
+    | - GET    | /expenses/summary/total    | Pegar o valor somado total das despesas.                   |
+    | - GET    | /expenses/summary/category | Pegar o valor somado total das despesas de cada categoria. |
+    | - POST   | /expenses                  | Cadastrar uma despesa.                                     |
+    | - PUT    | /expenses/:id              | Alterar as Informações de uma despesa pelo ID.             |
+    | - DELETE | /expenses/:id              | Deletar uma despesa em específico pelo ID.                 |
     + -------------------------------------------------------------------------------------------------- +
 
 ## MODELO DE DADOS
