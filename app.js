@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/despesas', async (req, res) => {
+app.get('/expenses', async (req, res) => {
     const despesas = await Despesa.getAll();
 
     if (despesas === null){
@@ -50,7 +50,7 @@ app.get('/despesas', async (req, res) => {
 })
 
 
-app.get('/despesas/:id', async (req, res) => {
+app.get('/expenses/:id', async (req, res) => {
     let idDespesa = req.params.id
 
     const despesas = await Despesa.getById(idDespesa);
@@ -63,7 +63,7 @@ app.get('/despesas/:id', async (req, res) => {
 })
 
 
-app.post('/despesas', async (req, res) => {
+app.post('/expenses', async (req, res) => {
     const {title, amount, category, date, description} = req.body;
 
     if (!title){
@@ -88,7 +88,7 @@ app.post('/despesas', async (req, res) => {
 })
 
 
-app.put('/despesas/:id', async (req, res) => {
+app.put('/expenses/:id', async (req, res) => {
     const {title, amount, category, date, description} = req.body;
 
     if (amount <= 0){
@@ -107,7 +107,7 @@ app.put('/despesas/:id', async (req, res) => {
 })
 
 
-app.delete('/despesas/:id', async (req, res) => {
+app.delete('/expenses/:id', async (req, res) => {
     const selecExpense = await Despesa.delete(Number(req.params.id));
 
     if (selecExpense === -1){
@@ -119,13 +119,13 @@ app.delete('/despesas/:id', async (req, res) => {
 })
 
 
-app.get('/despesas/summary/total', async (req, res) => {
+app.get('/expenses/summary/total', async (req, res) => {
     const somaTotal = await Despesa.somaTotalDespesas();
     return res.status(200).json(somaTotal);
 })
 
 
-app.get('/despesas/summary/category', async (req, res) => {
+app.get('/expenses/summary/category', async (req, res) => {
     const somaTotalCategoria = await Despesa.somaTotalDespesasCategoria();
     return res.status(200).json(somaTotalCategoria);
 })
