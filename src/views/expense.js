@@ -2,29 +2,25 @@ const expense = require('../controllers/expense');
 
 class ExpenseView {
     async getAll(req, res) {
-        const getAll = await expense.getAll();
-        if (getAll === null) {
-            return res.status(200).json("Sem despesas para retornar! Cadastre alguma despesa utilizando o POST!")
-        }
-        return res.status(200).json(getAll);
+        return await expense.getAll(req, res);
     }
     async create(req, res) {
-        return expense.create(req, res);
+        return await expense.create(req, res);
     }
     async getById(req, res) {
-        return expense.GetById(req, res);
+        return await expense.GetById(req, res);
     }
     async update(req, res) {
-        return expense.update(req, res);
+        return await expense.update(req, res);
     }
     async delete(req, res) {
-        return expense.delete(req, res);
+        return await  expense.delete(req, res);
     }
     async somaTotalDespesas(req, res) {
-        return expense.somaTotalDespesas(req, res);
+        return await expense.somaTotalDespesas(req, res);
     }
     async somaTotalDespesasCategoria(req, res) {
-        return expense.somaTotalDespesasCategoria(req, res);
+        return await expense.somaTotalDespesasCategoria(req, res);
     }
 }
 
