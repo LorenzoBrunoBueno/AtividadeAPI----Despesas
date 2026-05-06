@@ -1,7 +1,10 @@
 const express = require('express');
 const expense = require('./src/views/expense');
+//const { Sequelize } = require('sequelize');
 const app = express()
 const baseUrl = '/api/v1'
+
+//const sequelize = new Sequelize('sqlite:::memory:', {logging: console.log});
 
 app.use(express.json());
 
@@ -19,6 +22,17 @@ app.put(`${baseUrl}/expenses/:id`, expense.update)
 
 app.delete(`${baseUrl}/expenses/:id`, expense.delete)
 
-app.listen(3000, () => {
-    console.info("Servidor Rodando na porta 3000");
-})
+async function main() {
+    try {
+        //await sequelize.authenticate();
+        app.listen(3000, () => {
+            console.info("Servidor Rodando na porta 3000");
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+main();
+
+
