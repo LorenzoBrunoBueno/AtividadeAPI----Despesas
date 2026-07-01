@@ -5,7 +5,7 @@ const cache = new NodeCache();
 
 
 class CategoryController {
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const cacheCategory = cache.get("getAllCategories");
 
@@ -40,7 +40,7 @@ class CategoryController {
         }
     }
 
-    async getById(req, res){
+    async getById(req, res, next){
         try {
             const id = req.params.id;
 
@@ -76,11 +76,11 @@ class CategoryController {
         }
     }
 
-    async create(req, res){
+    async create(req, res, next){
         try{
             const { name, description } = req.body;
 
-            const response = await CategoryService.createUser(name, description);
+            const response = await CategoryService.createCategory(name, description);
 
             if (!response) {
                 return res.status(400).json("Erro ao criar categoria!");
@@ -102,12 +102,12 @@ class CategoryController {
         }
     }
 
-    async update(){
+    async update(req, res, next){
         try {
             const id = req.params.id;
             const { name, description } = req.body;
 
-            const response = await CategoryService.updateUser(id, name, description);
+            const response = await CategoryService.updateCategory(id, name, description);
 
             if (!response) {
                 throw new Error("Erro ao atualizar categoria!");
@@ -128,10 +128,10 @@ class CategoryController {
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         const id = req.params.id;
 
-        const categoryResponse = await CategoryService.deleteUser(id);
+        const categoryResponse = await CategoryService.deleteCategory(id);
 
         cache.del(["getAllCategories"]);
 

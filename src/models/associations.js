@@ -1,9 +1,9 @@
-const UserModel = require('/user')
-const CategoryModel = require('/category')
+const UserModel = require('./user')
+const CategoryModel = require('./category')
 const ExpenseModel = require('./expense')
 
 ExpenseModel.belongsTo(CategoryModel, {
-    foreignKey: 'categoryId',
+    foreignKey: 'categoriaId',
     as: 'category'
 })
 
@@ -18,6 +18,6 @@ UserModel.hasMany(ExpenseModel, {
 })
 
 CategoryModel.hasMany(ExpenseModel, {
-    foreignKey: 'categoryId',
+    foreignKey: 'categoriaId',
     as: 'expenses'
 })

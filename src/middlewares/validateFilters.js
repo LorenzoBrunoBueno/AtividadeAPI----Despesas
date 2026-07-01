@@ -1,7 +1,7 @@
 module.exports = function validateFilters(req, res, next) {
     const { status, valorMin, valorMax, dataIni, dataFim } = req.query;
 
-    if(status && status !== "pendente" || status !== "paga"){
+    if(status && status !== "pendente" && status && status !== "paga"){
         return res.status(400).json({error: 'Status não existe'});
     }
 

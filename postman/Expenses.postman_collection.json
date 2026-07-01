@@ -1,0 +1,566 @@
+{
+  "info": {
+    "_postman_id": "3f382f9a-d8d2-4512-81bd-66ecc74b0fd0",
+    "name": "Expenses",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33120913"
+  },
+  "item": [
+    {
+      "name": "AUTH",
+      "item": [
+        {
+          "name": "POST Users",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"joao silva\",\r\n    \"email\": \"joao@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"joao@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "CATEGORIAS",
+      "item": [
+        {
+          "name": "GET Categorias",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Bearer",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Njg0OSwiZXhwIjoxNzgzMDQ5NjQ5fQ.pAW3Wb084QRets2WeJhweEdUIGY2mT4IwnJtQZuTQwc",
+                "type": "text",
+                "id": 0
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Categoria by ID",
+          "request": {
+            "auth": {
+              "type": "inherit"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/categories/b1b2c3d4-0000-0000-0000-000000000001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "categories",
+                "b1b2c3d4-0000-0000-0000-000000000001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Categorias",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Assinaturas\",\r\n    \"description\": \"Serviços Recorrentes\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/categories",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Categorias",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Continhas\",\r\n    \"description\": \"Contas Contas\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/categories/b1b2c3d4-0000-0000-0000-000000000001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "categories",
+                "b1b2c3d4-0000-0000-0000-000000000001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/categories/b1b2c3d4-0000-0000-0000-000000000001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "categories",
+                "b1b2c3d4-0000-0000-0000-000000000001"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DESPESAS",
+      "item": [
+        {
+          "name": "GET Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/expenses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Expenses w/ Filters",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/expenses?categoria=Transporte&valorMin=5&valorMax=300&dataMax=2025-06-03&dataMin=2025-05-30",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "expenses"
+              ],
+              "query": [
+                {
+                  "key": "categoria",
+                  "value": "Transporte"
+                },
+                {
+                  "key": "valorMin",
+                  "value": "5"
+                },
+                {
+                  "key": "valorMax",
+                  "value": "300"
+                },
+                {
+                  "key": "dataMax",
+                  "value": "2025-06-03"
+                },
+                {
+                  "key": "dataMin",
+                  "value": "2025-05-30"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"description\": \"Despesa Legal\",\r\n    \"value\": 20.50,\r\n    \"date_expense\": \"2025-06-05\",\r\n    \"status\": \"pendente\",\r\n    \"categoria_id\": \"b1b2c3d4-0000-0000-0000-000000000002\",\r\n    \"user_id\": \"a6626e27-2bb5-4abd-bd61-a26a3087d490\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/expenses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"description\": \"Despesa\",\r\n    \"value\": 21.50,\r\n    \"date_expense\": \"2025-04-05\",\r\n    \"status\": \"paga\",\r\n    \"categoria_id\": \"b1b2c3d4-0000-0000-0000-000000000002\",\r\n    \"user_id\": \"a6626e27-2bb5-4abd-bd61-a26a3087d490\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v2/expenses/926f7593-c1f7-4dd9-b5ff-0a93d1427011",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "expenses",
+                "926f7593-c1f7-4dd9-b5ff-0a93d1427011"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/expenses/926f7593-c1f7-4dd9-b5ff-0a93d1427011",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "expenses",
+                "926f7593-c1f7-4dd9-b5ff-0a93d1427011"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DASHBOARD",
+      "item": [
+        {
+          "name": "GET Total Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/dashboard/total-expenses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "dashboard",
+                "total-expenses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Quantidade Expenses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/dashboard/expenses-count",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "dashboard",
+                "expenses-count"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Total Categoria",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2NjI2ZTI3LTJiYjUtNGFiZC1iZDYxLWEyNmEzMDg3ZDQ5MCIsIm5hbWUiOiJqb2FvIHNpbHZhIiwiZW1haWwiOiJqb2FvQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg3Nzk3MCwiZXhwIjoxNzgzMDUwNzcwfQ.7UDPeR7MSMs2DTYOdqI2Pn6FQk60HHFT9ENGn9yxHQk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/v2/dashboard/expenses-by-category",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "v2",
+                "dashboard",
+                "expenses-by-category"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

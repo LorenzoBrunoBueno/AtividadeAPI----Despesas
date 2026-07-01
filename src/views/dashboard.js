@@ -1,14 +1,14 @@
 const DashboardController = require('../controllers/dashboard');
 
 class DashboardView {
-    async countExpenses(req, res) {
-     return await DashboardController.countExpenses(req, res);
+    async countExpenses(req, res, next) {
+     return await DashboardController.countExpenses(req, res, next);
     }
-    async byCategoryExpenses(req, res) {
-        return await DashboardController.byCategoryExpenses(req, res);
+    async byCategoryExpenses(req, res, next) {
+        return await DashboardController.byCategoryExpenses(req, res, next);
     }
-    async totalExpenses(req, res) {
-        return await DashboardController.totalExpenses(req, res);
+    async totalExpenses(req, res, next) {
+        return await DashboardController.totalExpenses(req, res, next);
     }
 }
 

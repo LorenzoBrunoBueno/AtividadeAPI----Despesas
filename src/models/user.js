@@ -23,15 +23,7 @@ const User = sequelize.define('user', {
     password_hash: {
         type: DataTypes.TEXT,
         allowNull: false
-    },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"),
     }
-})
+}, {timestamps: true, underscored: true, createdAt: 'created_at', updatedAt: 'updated_at', tableName: 'user'})
 
 module.exports = User;

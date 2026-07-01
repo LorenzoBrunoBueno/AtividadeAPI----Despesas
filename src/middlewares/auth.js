@@ -8,7 +8,7 @@ module.exports = function authMiddleware(req, res, next) {
         return res.status(400).json({error: "Token não informado!"});
     }
 
-    const [scheme, token] = authHeader.split('');
+    const [scheme, token] = authHeader.split(' ');
 
     if(scheme !== 'Bearer' || !token) {
         return res.status(400).json({ error: "Token mal formatado!" });

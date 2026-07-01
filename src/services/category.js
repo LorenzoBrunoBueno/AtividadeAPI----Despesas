@@ -8,7 +8,7 @@ class CategoryService {
     constructor() { }
 
     async getAll() {
-        const response = await CategoryModel.findAll({ include: [{ association: 'expenses' }] });
+        const response = await CategoryModel.findAll();
         
         if(!response){
             throw new Error('Sem categorias cadastradas!');
@@ -24,12 +24,12 @@ class CategoryService {
         }
 
         const id = crypto.randomUUID();
-        return await CategoryModel.create(id, name, description);
+        return await CategoryModel.create({id, name, description});
     }
 
-    async getCategoryById(id) {
+    async getById(id) {
 
-        const response = await CategoryModel.findByPk(id, { include: [{ association: 'expenses' }] });
+        const response = await CategoryModel.findByPk(id);
         
         if(!response){
             throw new Error('Categoria não encontrada!');
@@ -44,7 +44,7 @@ class CategoryService {
             throw new Error('Envie todas as informações!');
         }
 
-        const category = await this.getCategoryById(id);
+        const category = await this.getById(id);
 
         if (!category) {
             return null
@@ -63,7 +63,7 @@ class CategoryService {
             throw new Error('Envie um id!');
         }
 
-        const category = await this.getCategoryById(id);
+        const category = await this.getById(id);
 
         if (!category) {
             return null
@@ -73,3 +73,5 @@ class CategoryService {
         return null;
     }
 }
+
+module.exports = new CategoryService();

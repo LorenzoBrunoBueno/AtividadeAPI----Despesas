@@ -6,36 +6,37 @@
 # Descrição do Projeto
 
 ## OBJETIVO DA API
- - Desenvolver Endpoints funcionais para visualização, cadastro, alteração, remoção e outras operações para um sistema de registro para     despesas, armazenando esses dados em um array ou arquivo.json (nesse caso um arquivo json) .
+ - Desenvolver Endpoints funcionais para visualização, cadastro, alteração, remoção e outras operações para um sistema de registro para despesas, categorias e usuários, além de endpoints para dashboard, armazenando esses dados em um banco de dados MYSQL local.
 
-## TECNOLOGIAS UTILIZADAS
+## FERRAMENTAS UTILIZADAS
  - NPM
  - Node.js
  - Postman
  - Express.js
- - Biblioteca File System do Node.js
+ - bcrypt
+ - jwt
+ - sequelize
  - Visual Studio Code
 
 ## EXECUTANDO:
  - clone o repositório do github utilizando: git clone https://github.com/LorenzoBrunoBueno/AtividadeAPI----Despesas.git
  - dentro da pasta AtividadeAPI----Despesas, rode o comando: npm install.
- - depois, neste mesmo terminal, rode o comando configurado dentro do package.json: npm start .
+ - depois entre na pasta "database" dentro da pasta "src" do projeto e rode o comando para executar as migrations: npx sequelize-cli db:migrate
+ - na mesma pasta, rode o comando para executar os seeders: npx sequelize-cli db:seed:all
+ - volte para a raiz do projeto e rode o comando: npm start
  - pronto, o servidor já está rodando.
 
  ## TESTANDO
  - Depois efetuar a etapa acima, o servidor estará rodando na porta 3000, em http://localhost:3000.
+ - O body das requisições já está pré-montado nas rotas dentro da collection do Postman, presente na pasta Postman.
+ - Para utilizar as rotas, apenas importe o arquivo para o seu Postman.
+ - Não escrevi nenhum script para colocar automaticamente o token de autenticação nas rotas.
+ - Caso precise, insira a sua chave token como tipo "Bearer token" dentro da aba "Authorization" da requisição Postman
 
- - Molde para o body das requisições POST e PUT no Postman:
 
-{
-    "title": "",
-    "amount": ,
-    "category": "",
-    "date": "AAAA-MM-DD",
-    "description": ""
-}
+ ## ROTAS DA API - !!!DEPRECATED!!!
 
- ## ROTAS DA API
+ - Verifique as rotas importando a collection do Postman!!!
 
     + -------------------------------------------------------------------------------------------------- +
     |  Método  |            Rota            |                         Descrição                          |
@@ -49,9 +50,11 @@
     | - DELETE | /expenses/:id              | Deletar uma despesa em específico pelo ID.                 |
     + -------------------------------------------------------------------------------------------------- +
 
-## MODELO DE DADOS
+## MODELO DE DADOS - !!!DEPRECATED!!!
 
-### Entidade Expense/Despesa
+- A nova modalem de dados está dentro da pasta "database" no arquivo "DATABASE_TABELAS.sql"
+
+### Entidade Expense/Despesa - !!!DEPRECATED!!!
 
     + ----------------------------------------------------------------- +
     |                             Expense                               |
@@ -66,81 +69,3 @@
     | description | String                                              |
     | createdAt   | Datetime NOT NULL                                   |  
     + ----------------------------------------------------------------- +
-
-## EXEMPLOS DE REQUISIÇÃO
-
-### Requisições feitas no Postman
-
-- Pegando todas as despesas:
- - GET http://localhost:3000/expenses
- - Resp:
-    [{"id":0,"title":"Remédios da Vovó","amount":200,"category":"Remédios","date":"1999-02-24","description":"Remédios da Vovó","createdAt":"2026-03-24T22:49:34.807Z"},{"id":1,"title":"Remédios do Netinho","amount":1010,"category":"Remédios","date":"2020-03-02","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"},{"id":2,"title":"Remédios do Vovô","amount":2000,"category":"Remédios","date":"2015-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T23:05:08.706Z"},{"id":3,"title":"Compras do Supermercado","amount":1500,"category":"Mantimentps","date":"2001-02-24","description":"Compras do Supermercado","createdAt":"2026-03-24T23:06:42.301Z"},{"id":4,"title":"Compras de Verduras","amount":350,"category":"Mantimentps","date":"2011-02-24","description":"Compras da Verdureira","createdAt":"2026-03-24T23:10:44.409Z"},{"id":5,"title":"Compras de Suplementos","amount":350,"category":"Mantimentps","date":"2002-02-24","description":"Compras da Growth","createdAt":"2026-03-24T23:12:08.977Z"}]
-
-- Pegando uma em específico:
- - GET http://localhost:3000/expenses/2
- - Resp:
-    {"id":2,"title":"Remédios do Vovô","amount":2000,"category":"Remédios","date":"2015-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T23:05:08.706Z"}
-
-- Pegando o valor somado total dos campos "amount" das despesas: 
- - GET http://localhost:3000/expenses/summary/total
- - Resp:
-    5410
-
-- Pegando o valor somado de todos os campos "amount", divididos por categoria:
- - GET http://localhost:3000/expenses/summary/category
- - Resp: 
-    {"categoria":"Remédios","categoriaAmount":3210},{"categoria":"Mantimentps","categoriaAmount":2200}
-
-- Cadastrando uma despesa:
- - POST http://localhost:3000/expenses
- - Body: 
-        {
-            "title": "Remédios do Vovô",
-            "amount": 1000,
-            "category": "Remédios",
-            "date": "2010-02-24",
-            "description": "Remédios do Vovô"
-        }
- - Resp:
-    {"id":1,"title":"Remédios do Vovô","amount":1000,"category":"Remédios","date":"2010-02-24","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"}
-
-- Alterando dados de uma despesa:
- - PUT http://localhost:3000/expenses/17
- - Body: 
-        {
-            "title": "Remédios do Netinho",
-            "amount": 1010,
-            "category": "",
-            "date": "2020-03-02",
-            "description": ""
-        }      
- - Resp:
-    {"id":1,"title":"Remédios do Netinho","amount":1010,"category":"Remédios","date":"2020-03-02","description":"Remédios do Vovô","createdAt":"2026-03-24T22:50:12.620Z"}
-    ## VEJA A SEÇÃO DE "NOTAS" NO FIM DO DOCUMENTO PARA ENTENDER MELHOR COMO E QUAIS CAMPOS PODEM SER ALTERADOS DURANTE A EXECUÇÃO DO "PUT"!!!
-
-- Deletando uma despesa:
- - DELETE http://localhost:3000/expenses/17
- - Resp:
-    "Despesa Excluída"
-
-# MELHORIAS 
-
-- Analisar mais a fundo a formatação dos campos para responder de acordo, como o formato de data (AAAA/MM/DD).
-- Transformar a ação de pegar os dados do arquivo, colocando cada registro dentro de um array, em uma função para reduzir repetição do código e facilitar reutilização.
-- Adicionar Filtros no get das despesas, como por categoria, data específica, período e etc.
-- Utilizar apenas a linguagem inglesa na construção das funções, vairáveis e operações para padronizar o projeto com boas práticas.
-
-# NOTAS 
-## PUT
-- Tirando "id" e "createdAt", todos os outros campos podem ser alterados.
-- Você pode escolher alterar alguns campos, mantendo outros como eram anteriormente.
-  - Para fazer isso basta deixar o campo que você não quer alterar como "", exemplo:
-    {
-        "title": "Remédios do Vovô",
-        "amount": 250,
-        "category": "",
-        "date": "",
-        "description": ""
-    }
-  - Nessa requisição somente os campos "title" e "amount" estão sendo alterados, os outros que estão com "", permanecem como eram antes.
-  - A única exceção é o campo amount, que deve ter seu valor colocado novamente em todas as requisições.  

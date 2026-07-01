@@ -1,4 +1,5 @@
 const express = require('express');
+require('./src/models/associations');
 const ExpenseRoutes = require('./src/routes/expenses');
 const AuthRoutes = require('./src/routes/auth');
 const CategoryRoutes = require('./src/routes/category');
@@ -7,6 +8,7 @@ const app = express()
 const baseUrl = '/api/v2'
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(`${baseUrl}/`, AuthRoutes);
 app.use(`${baseUrl}/categories`, CategoryRoutes);

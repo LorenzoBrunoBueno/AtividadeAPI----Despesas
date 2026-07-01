@@ -5,7 +5,7 @@ const cache = new NodeCache();
 
 
 class ExpenseController {
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const { categoria, status, dataIni, dataFim, valorMin, valorMax } = req.query;
 
@@ -44,7 +44,7 @@ class ExpenseController {
         }
     }
 
-    async getById(req, res){
+    async getById(req, res, next){
         try {
             const id = req.params.id;
 
@@ -80,11 +80,11 @@ class ExpenseController {
         }
     }
 
-    async create(req, res){
+    async create(req, res, next){
         try{
-            const { description, value, date_expense, status, categoria_id, usuario_id } = req.body;
+            const { description, value, date_expense, status, categoria_id, user_id } = req.body;
 
-            const response = await ExpenseService.createExpense(description, value, date_expense, status, categoria_id, usuario_id);
+            const response = await ExpenseService.createExpense(description, value, date_expense, status, categoria_id, user_id);
 
             if (!response) {
                 return res.status(400).json("Erro ao criar despesa!");
@@ -108,12 +108,12 @@ class ExpenseController {
         }
     }
 
-    async update(){
+    async update(req, res, next){
         try {
             const id = req.params.id;
-            const { description, value, date_expense, status, category_id, user_id } = req.body;
+            const { description, value, date_expense, status, categoria_id, user_id } = req.body;
 
-            const response = await ExpenseService.updateExpense(id, description, value, date_expense, status, category_id, user_id);
+            const response = await ExpenseService.updateExpense(id, description, value, date_expense, status, categoria_id, user_id);
             if (!response) {
                 return res.status(400).json("Erro ao atualizar despesa!");
             }
@@ -135,7 +135,7 @@ class ExpenseController {
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         const id = req.params.id;
 
         const expenseResponse = await ExpenseService.deleteExpense(id);

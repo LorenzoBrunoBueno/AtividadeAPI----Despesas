@@ -3,7 +3,7 @@ const DashboardService = require('../services/dashboard');
 class DashboardController {
     constructor () {}
 
-    async countExpenses(req, res){
+    async countExpenses(req, res, next){
         try {
             const response = await DashboardService.countExpenses();
             return res.status(200).json({quantidade: response});
@@ -12,7 +12,7 @@ class DashboardController {
         }
     }
 
-    async byCategoryExpenses(req, res){
+    async byCategoryExpenses(req, res, next){
         try {
             const response = await DashboardService.byCategoryExpenses();
             return res.status(200).json(response);            
@@ -21,7 +21,7 @@ class DashboardController {
         }
     }
 
-    async totalExpenses(req, res){
+    async totalExpenses(req, res, next){
         try {
             const response = await DashboardService.totalExpenses();
             return res.status(200).json({total: response});

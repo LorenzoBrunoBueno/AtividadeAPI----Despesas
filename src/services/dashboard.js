@@ -11,10 +11,11 @@ class DashboardService {
 
     async byCategoryExpenses (){
         const totaisCategorias = await ExpenseModel.findAll({
-            attributes: ['category_id', [sequelize.fn('SUM', sequelize.col('value')), 'totalCategoria']],
-            group: ['category_id'],
+            attributes: ['categoria_Id', [sequelize.fn('SUM', sequelize.col('value')), 'totalCategoria']],
+            group: ['categoria_Id'],
             include: [{
-                model: category,
+                model: CategoryModel,
+                as: 'category',
                 attributes: ['name']
             }], 
             raw: true

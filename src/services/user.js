@@ -15,7 +15,17 @@ class UserService {
             throw new Error('Insira todas as informações de login!');
         }
 
-        const user = await UserService.getUserByEmail(email);
+        const user = await UserModel.findOne({ where: { email: email }});
+
+        if (!user){
+            throw new Error("Email ou Senha inválidos!");
+        }
+
+        const valid = await bcrypt.compare(password, user.password_hash);
+
+        if(!valid){
+            throw new Error("Email ou Senha inválidos!");
+        }
 
         const token = jwt.sign(
             {id: user.id, name: user.name, email: user.email }, config.jwt.secret, {expiresIn: config.jwt.expiresIn }
@@ -43,7 +53,8 @@ class UserService {
 
         const id = crypto.randomUUID();
         const password_hash = await bcrypt.hash(password, 10);
-        return await UserModel.create(id, name, email, password_hash);
+        console.log({name, email, password});
+        return await UserModel.create({id, name, email, password_hash});
     }
 
     async getUserById(id){
@@ -55,11 +66,6 @@ class UserService {
 
         return response;
 
-    }
-
-    async getUserByEmail(email){
-        const response = await UserModel.getUserByEmail(email);
-        return response;
     }
 
     async updateUser(id, name, email, password){
