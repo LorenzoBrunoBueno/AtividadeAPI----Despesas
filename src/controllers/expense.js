@@ -1,202 +1,155 @@
-const Expense = require('../models/expense');
+const ExpenseService = require('../services/expense');
 
 const NodeCache = require('node-cache');
 const cache = new NodeCache();
 
+
 class ExpenseController {
     async getAll(req, res) {
-        const cacheExpenses = cache.get("getAllExpenses");
-        if (cacheExpenses){
-            console.log("retorno do cache!");
-            return res.status(200).json({ data: cacheExpenses, links: [
-                {rel: "somaTotalDespesas", href: "/api/v1/expenses/summary/total", method: "GET"},
-                {rel: "somaTotalDespesasCategoria", href: "/api/v1/expenses/summary/category", method: "GET"},
-            ]});
-        }
+        try {
+            const { categoria, status, dataIni, dataFim, valorMin, valorMax } = req.query;
 
-        const expenseResponse = await Expense.getAll();
-        if (!expenseResponse) {
-            return res.status(200).json("Sem despesas para retornar! Cadastre alguma despesa utilizando o POST!")
-        }
+            const cacheKey = `getAllExpenses:${categoria}:${status}:${dataIni}:${dataFim}:${valorMin}:${valorMax}`;
 
-        const cached = cache.set("getAllExpenses", expenseResponse);
-        if(!cached){
-            console.log("Não foi possível cachear a requisição!");
-        }
+            const cacheExpenses = cache.get(cacheKey);
 
-        return res.status(200).json({ data: expenseResponse, links: [
-            {rel: "create", href: "/api/v1/expenses", method: "POST"},
-            {rel: "somaTotalDespesas", href: "/api/v1/expenses/summary/total", method: "GET"},
-            {rel: "somaTotalDespesasCategoria", href: "/api/v1/expenses/summary/category", method: "GET"},
-        ]});
+            if (cacheExpenses) {
+                console.log("retorno do cache!");
+                return res.status(200).json({
+                    data: cacheExpenses, links: [
+                        { rel: "somaTotalDespesas", href: "/api/v2/expenses/summary/total", method: "GET" },
+                        { rel: "somaTotalDespesasCategoria", href: "/api/v2/expenses/summary/category", method: "GET" },
+                    ]
+                });
+            }
+
+            const response = await ExpenseService.getAll(categoria, status, dataIni, dataFim, valorMin, valorMax);
+
+            const cached = cache.set(cacheKey, response);
+
+            if (!cached) {
+                console.log("Não foi possível cachear a requisição!");
+            }
+
+            return res.status(200).json({
+                data: response, links: [
+                    { rel: "create", href: "/api/v2/expenses", method: "POST" },
+                    { rel: "somaTotalDespesas", href: "/api/v2/expenses/summary/total", method: "GET" },
+                    { rel: "somaTotalDespesasCategoria", href: "/api/v2/expenses/summary/category", method: "GET" },
+                ]
+            });
+
+        } catch(e) {
+            next(e);
+        }
     }
-    async GetById(req, res) {
-        const id = req.params.id;
 
-        if (!id) {
-            return res.status(400).json("Sem Parâmetro ID!");
-        }
-        if (isNaN(Number(id))) {
-            return res.status(400).json("O Parâmetro ID precisa ser um número!");
-        }
+    async getById(req, res){
+        try {
+            const id = req.params.id;
 
-        const cacheExpenses = cache.get(id);
-        if(cacheExpenses){
-            console.log("retorno do cache!");
-            return res.status(200).json({ data: cacheExpenses, links: [
-                {rel: "getAll", href: "/api/v1/expenses", method: "GET"},
-                {rel: "update", href: `/api/v1/expenses/${id}`, method: "PUT"},
-                {rel: "delete", href: `/api/v1/expenses/${id}`, method: "DELETE"},
-            ]});
-        }
+            const cacheExpenses = cache.get(id);
+            if (cacheExpenses) {
+                console.log("retorno do cache!");
+                return res.status(200).json({
+                    data: cacheExpenses, links: [
+                        { rel: "getAll", href: "/api/v2/expenses", method: "GET" },
+                        { rel: "update", href: `/api/v2/expenses/${id}`, method: "PUT" },
+                        { rel: "delete", href: `/api/v2/expenses/${id}`, method: "DELETE" },
+                    ]
+                });
+            }
 
-        const expenseResponse = await Expense.getById(id);
-        console.log(expenseResponse);
-        if (!expenseResponse) {
-            return res.status(404).json("Despesa não encontrada!");
-        }
+            const response = await ExpenseService.getById(id);
 
-        const cached = cache.set(id, expenseResponse);
-        if(!cached){
-            console.log("Não foi possível cachear a requisição!");
-        }
+            const cached = cache.set(id, response);
+            if (!cached) {
+                console.log("Não foi possível cachear a requisição!");
+            }
 
-        return res.status(200).json({ data: expenseResponse, links: [
-            {rel: "getAll", href: "/api/v1/expenses", method: "GET"},
-            {rel: "update", href: `/api/v1/expenses/${id}`, method: "PUT"},
-            {rel: "delete", href: `/api/v1/expenses/${id}`, method: "DELETE"},
-        ]});
+            return res.status(200).json({
+                data: response, links: [
+                    { rel: "getAll", href: "/api/v2/expenses", method: "GET" },
+                    { rel: "update", href: `/api/v2/expenses/${id}`, method: "PUT" },
+                    { rel: "delete", href: `/api/v2/expenses/${id}`, method: "DELETE" },
+                ]
+            });
+
+        } catch(e) {
+            next(e);
+        }
     }
-    async create(req, res) {
-        const { title, amount, category, date, description } = req.body;
 
-        if (!title) {
-            console.log("O Campo 'title' é obrigatório!");
-            return res.status(400).json("O Campo 'title' é obrigatório!");
+    async create(req, res){
+        try{
+            const { description, value, date_expense, status, categoria_id, usuario_id } = req.body;
+
+            const response = await ExpenseService.createExpense(description, value, date_expense, status, categoria_id, usuario_id);
+
+            if (!response) {
+                return res.status(400).json("Erro ao criar despesa!");
+            }
+
+            const keys = cache.keys().filter(k => k.startsWith("getAllExpenses"));
+            keys.forEach(k => cache.del(k));
+            cache.del(["somaTotalExpenses", "somaTotalCategoriaExpenses"]);
+
+            return res.status(201).json({
+                message: "Despesa criada com sucesso.", data: response, links: [
+                    { rel: "getById", href: `/api/v2/expenses/${response.id}`, method: "GET" },
+                    { rel: "getAll", href: "/api/v2/expenses/", method: "GET" },
+                    { rel: "update", href: `/api/v2/expenses/${response.id}`, method: "PUT" },
+                    { rel: "delete", href: `/api/v2/expenses/${response.id}`, method: "DELETE" }
+                ]
+            });
+
+        } catch(e){
+            next(e);
         }
-
-        if (amount <= 0) {
-            return res.status(400).json("O Campo 'Amount' deve ser maior que zero!");
-        }
-
-        let dataHoje = Date.now();
-        let dataParse = Date.parse(date);
-        if (dataParse > dataHoje) {
-            return res.status(400).json("Registre apenas contas passadas ou de hoje!");
-        }
-
-        const expenseResponse = await Expense.create(title, amount, category, date, description);
-        if (!expenseResponse) {
-            return res.status(400).json("Erro ao criar despesa!");
-        }
-
-        cache.del(["getAllExpenses", "somaTotalExpenses", "somaTotalCategoriaExpenses"]);
-    
-        return res.status(201).json({ message: "Despesa criada com sucesso.", data: expenseResponse, links: [
-            {rel: "getById", href: `/api/v1/expenses/${expenseResponse.id}`, method: "GET"},
-            {rel: "getAll", href: "/api/v1/expenses/", method: "GET"},
-            {rel: "update", href: `/api/v1/expenses/${expenseResponse.id}`, method: "PUT"},
-            {rel: "delete", href: `/api/v1/expenses/${expenseResponse.id}`, method: "DELETE"}
-        ]});
     }
-    async update(req, res) {
-        const id = req.params.id;
-        const { title, amount, category, date, description } = req.body;
 
-        if (!id) {
-            return res.status(400).json("Sem Parâmetro ID!");
+    async update(){
+        try {
+            const id = req.params.id;
+            const { description, value, date_expense, status, category_id, user_id } = req.body;
+
+            const response = await ExpenseService.updateExpense(id, description, value, date_expense, status, category_id, user_id);
+            if (!response) {
+                return res.status(400).json("Erro ao atualizar despesa!");
+            }
+
+            const keys = cache.keys().filter(k => k.startsWith("getAllExpenses"));
+            keys.forEach(k => cache.del(k));
+            cache.del(["somaTotalExpenses", "somaTotalCategoriaExpenses"]);
+
+            return res.status(200).json({
+                message: "Despesa atualizada com sucesso.", data: response, links: [
+                    { rel: "getById", href: `/api/v2/expenses/${response.id}`, method: "GET" },
+                    { rel: "getAll", href: "/api/v2/expenses", method: "POST" },
+                    { rel: "delete", href: `/api/v2/expenses/${response.id}`, method: "DELETE" }
+                ]
+            });
+
+        } catch(e) {
+            next(e);
         }
-
-        if (isNaN(Number(id))) {
-            return res.status(400).json("O Parâmetro ID precisa ser um número!");
-        }
-
-        if (amount <= 0) {
-            return res.status(400).json("O Campo 'Amount' deve ser maior que zero!");
-        }
-
-        let dataHoje = Date.now();
-        let dataParse = Date.parse(date);
-        if (dataParse > dataHoje) {
-            return res.status(400).json("Registre apenas contas passadas ou de hoje!");
-        }
-
-        const expenseResponse = await Expense.update(Number(id), title, amount, category, date, description);
-        if (!expenseResponse) {
-            return res.status(400).json("Erro ao atualizar despesa!");
-        }
-
-        cache.del([id, "getAllExpenses", "somaTotalExpenses", "somaTotalCategoriaExpenses"]);
-
-        return res.status(200).json({message: "Despesa atualizada com sucesso.", data: expenseResponse, links: [
-            {rel: "getById", href: `/api/v1/expenses/${expenseResponse.id}`, method: "GET"},
-            {rel: "getAll", href: "/api/v1/expenses", method: "POST"},
-            {rel: "delete", href: `/api/v1/expenses/${expenseResponse.id}`, method: "DELETE"}
-         ]});
     }
+
     async delete(req, res) {
         const id = req.params.id;
-        const expenseResponse = await Expense.delete(id);
-        if (!expenseResponse) {
-            return res.status(404).json("Despesa não encontrada!");
-        }
 
-        cache.del(["getAllExpenses", "somaTotalExpenses", "somaTotalCategoriaExpenses"]);
+        const expenseResponse = await ExpenseService.deleteExpense(id);
 
-        return res.status(204).json({ message: "Despesa Excluída", links: [
-            {rel: "getAll", href: `/api/v1/expenses`, method: "GET"},
-            {rel: "create", href: "/api/v1/expenses", method: "POST"}
-         ]});
-    }
-    async somaTotalDespesas(req, res) {
-        const cacheTotalExpenses = cache.get("somaTotalExpenses");
-        if(cacheTotalExpenses){
-            console.log("retorno do cache!");
-            return res.status(200).json({message: "Soma total do valor das despesas", data: cacheTotalExpenses, links: [
-                    {rel: "getAll", href: `/api/v1/expenses`, method: "GET"},
-                    {rel: "somaTotalDespesasCategoria", href: "/api/v1/expenses/summary/category", method: "GET"},
-            ]});
-        }
+        const keys = cache.keys().filter(k => k.startsWith("getAllExpenses"));
+        keys.forEach(k => cache.del(k));
+        cache.del(["somaTotalExpenses", "somaTotalCategoriaExpenses"]);
 
-        const somaTotal = await Expense.somaTotalDespesas();
-        if (!somaTotal) {
-            return res.status(400).json("Erro ao calcular soma total de despesas!");
-        }
-
-        const cached = cache.set("somaTotalExpenses", somaTotal);
-        if(!cached){
-            console.log("Não foi possível cachear a requisição!");
-        }
-
-        return res.status(200).json({message: "Soma total do valor das despesas", data: somaTotal, links: [
-                {rel: "getAll", href: `/api/v1/expenses`, method: "GET"},
-                {rel: "somaTotalDespesasCategoria", href: "/api/v1/expenses/summary/category", method: "GET"},
-        ]});
-    }
-    async somaTotalDespesasCategoria(req, res) {
-        const cacheTotalCategoriaExpenses = cache.get("somaTotalCategoriaExpenses");
-        if(cacheTotalCategoriaExpenses){
-            console.log("retorno do cache!");
-            return res.status(200).json({message: "Soma total do valor das despesas por categoria", data: cacheTotalCategoriaExpenses, links: [
-                {rel: "getAll", href: `/api/v1/expenses`, method: "GET"},
-                {rel: "somaTotalDespesas", href: "/api/v1/expenses/summary/total", method: "GET"},
-            ]});
-        }
-
-        const somaTotalCategoria = await Expense.somaTotalDespesasCategoria();
-        if (!somaTotalCategoria) {
-            return res.status(400).json("Erro ao calcular soma total de despesas!");
-        }
-
-        const cached = cache.set("somaTotalCategoriaExpenses", somaTotalCategoria);
-        if(!cached){
-            console.log("Não foi possível cachear a requisição!");
-        }
-
-        return res.status(200).json({message: "Soma total do valor das despesas por categoria", data: somaTotalCategoria, links: [
-                {rel: "getAll", href: `/api/v1/expenses`, method: "GET"},
-                {rel: "somaTotalDespesas", href: "/api/v1/expenses/summary/total", method: "GET"},
-        ]});
+        return res.status(204).json({
+            message: "Despesa Excluída", links: [
+                { rel: "getAll", href: `/api/v2/expenses`, method: "GET" },
+                { rel: "create", href: "/api/v2/expenses", method: "POST" }
+            ]
+        });
     }
 }
 
