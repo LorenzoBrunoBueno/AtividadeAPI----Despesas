@@ -5,8 +5,10 @@ const AuthRoutes = require('./src/routes/auth');
 const CategoryRoutes = require('./src/routes/category');
 const DashboardRoutes = require('./src/routes/dashboard');
 const app = express()
+const cors = require('cors');
 const baseUrl = '/api/v2'
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

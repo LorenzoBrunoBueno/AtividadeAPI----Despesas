@@ -44,28 +44,11 @@ class ExpenseController {
         }
     }
 
-    async getById(req, res, next){
+    async GetById(req, res, next){
         try {
             const id = req.params.id;
 
-            const cacheExpenses = cache.get(id);
-            if (cacheExpenses) {
-                console.log("retorno do cache!");
-                return res.status(200).json({
-                    data: cacheExpenses, links: [
-                        { rel: "getAll", href: "/api/v2/expenses", method: "GET" },
-                        { rel: "update", href: `/api/v2/expenses/${id}`, method: "PUT" },
-                        { rel: "delete", href: `/api/v2/expenses/${id}`, method: "DELETE" },
-                    ]
-                });
-            }
-
-            const response = await ExpenseService.getById(id);
-
-            const cached = cache.set(id, response);
-            if (!cached) {
-                console.log("Não foi possível cachear a requisição!");
-            }
+            const response = await ExpenseService.getExpenseById(id);
 
             return res.status(200).json({
                 data: response, links: [
