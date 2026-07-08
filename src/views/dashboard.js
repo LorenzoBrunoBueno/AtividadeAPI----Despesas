@@ -10,6 +10,9 @@ class DashboardView {
     async totalExpenses(req, res, next) {
         return await DashboardController.totalExpenses(req, res, next);
     }
+    async lastExpenses(req, res, next) {
+        return await DashboardController.lastExpenses(req, res, next);
+    }
 }
 
 module.exports = new DashboardView();

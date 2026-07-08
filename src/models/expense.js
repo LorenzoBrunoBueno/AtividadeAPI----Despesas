@@ -56,7 +56,9 @@ const Expense = sequelize.define('expense', {
 }, {
     tableName: 'expense',
     underscored: true,
-    timestamps: false
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
 })
 
 module.exports = Expense;

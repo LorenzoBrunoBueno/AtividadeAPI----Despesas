@@ -27,6 +27,13 @@ class DashboardService {
     async totalExpenses (){
         return await ExpenseModel.sum('value');
     }
+
+    async lastExpenses (limite){
+        return await ExpenseModel.findAll({
+            order: [['created_at', 'DESC']],
+            limit: parseInt(limite, 10)
+        })
+    }
 }
 
 module.exports = new DashboardService();

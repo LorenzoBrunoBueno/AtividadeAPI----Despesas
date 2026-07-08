@@ -29,6 +29,17 @@ class DashboardController {
             next(e);
         }
     }
+
+    async lastExpenses(req, res, next){
+        try{
+            const limit = req.params.limit;
+            
+            const response = await DashboardService.lastExpenses(limit);
+            return res.status(200).json(response);
+        }catch(e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new DashboardController();

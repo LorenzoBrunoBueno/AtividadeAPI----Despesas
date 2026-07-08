@@ -7,5 +7,6 @@ const DashboardView = require('../views/dashboard');
 router.get('/total-expenses', authMiddleware, DashboardView.totalExpenses);
 router.get('/expenses-count', authMiddleware, DashboardView.countExpenses);
 router.get('/expenses-by-category', authMiddleware, DashboardView.byCategoryExpenses);
+router.get('/last/:limit', authMiddleware, DashboardView.lastExpenses);
 
 module.exports = router;
